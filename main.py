@@ -3,8 +3,8 @@ import random
 import time
 from merge import adb_swipe_hold
 from screenshot import process_screenshots
-import os
 start_pos = (86, 1234)
+random.seed()  # 使用系统当前时间作为随机种子
 source_img = 'cropped_screenshots/cropped_screenshot.png'
 def shuffle_array(arr):
     """
@@ -14,17 +14,6 @@ def shuffle_array(arr):
     """
     random.shuffle(arr)
     return arr
-
-
-def get_two_random_elements(arr):
-    """
-    从数组中随机取两个元素。
-    :param arr: 输入数组
-    :return: 包含两个随机元素的列表
-    """
-    if len(arr) < 2:
-        raise ValueError("数组长度必须至少为 2")
-    return random.sample(arr, 2)
 
 def swap_elements(arr, index1, index2):
     """
@@ -51,7 +40,7 @@ while True:
             # TODO: 优化
             if i >= 13:
                 threshold = 0.3
-            if i in [15]:
+            if i in [15, 14]:
                 threshold = 0.25
             matched = disgust_pic(source_img, target_img, threshold)
             print(f"{target_img} found {len(matched)}")
@@ -69,11 +58,13 @@ while True:
     # merge poopers
     for i in found:
         print(f"swiping: {i}")
-        adb_swipe_hold(i[0],i[1],i[2],i[3], 1.5, 800)
+        random_number = round(random.uniform(2, 4.5), 1)
+        adb_swipe_hold(i[0],i[1],i[2],i[3], random_number, 800)
         swipe_cnt = swipe_cnt + 1
     
     if swipe_cnt == 0:
         total_cnt = total_cnt - 1
+        time.sleep(8)
         if total_cnt == 0:
             print(f"no poopers found, swiping back")
             exit(0)
