@@ -1,6 +1,8 @@
 from disgust import disgust_pic
+from win10toast import ToastNotifier
 import random
 import time
+from datetime import datetime
 from merge import adb_swipe_hold
 from screenshot import process_screenshots
 start_pos = (86, 1234)
@@ -27,7 +29,7 @@ def swap_elements(arr, index1, index2):
     
     # 交换元素
     arr[index1], arr[index2] = arr[index2], arr[index1]
-
+start_time = time.time()
 total_cnt = 5
 while True:
     process_screenshots()
@@ -38,7 +40,7 @@ while True:
             target_img = 'pooper_items/' + str(i) + '.png'
             threshold = 0.4
             # TODO: 优化
-            if i >= 13:
+            if i >= 12:
                 threshold = 0.3
             if i in [15, 14]:
                 threshold = 0.25
@@ -66,7 +68,11 @@ while True:
         total_cnt = total_cnt - 1
         time.sleep(8)
         if total_cnt == 0:
-            print(f"no poopers found, swiping back")
+            end_time = time.time()
+            duration = (end_time - start_time)/60
+            print(f"no poopers found, swiping back")         
+            toaster = ToastNotifier()
+            toaster.show_toast("dogPooper运行结束", f"已于{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}结束运行时长为：{duration} 分钟", duration=5)
             exit(0)
     else:
         total_cnt = 5
