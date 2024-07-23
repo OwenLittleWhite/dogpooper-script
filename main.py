@@ -3,6 +3,7 @@ import random
 import time
 from merge import adb_swipe_hold
 from screenshot import process_screenshots
+import os
 start_pos = (86, 1234)
 source_img = 'cropped_screenshots/cropped_screenshot.png'
 def shuffle_array(arr):
@@ -38,16 +39,20 @@ def swap_elements(arr, index1, index2):
     # 交换元素
     arr[index1], arr[index2] = arr[index2], arr[index1]
 
+total_cnt = 5
 while True:
     process_screenshots()
     found = []
+    swipe_cnt = 0
     try: 
-        for i in range(15, 4, -1):
+        for i in range(20, 7, -1):
             target_img = 'pooper_items/' + str(i) + '.png'
             threshold = 0.4
             # TODO: 优化
-            if i in [13,14]:
+            if i >= 13:
                 threshold = 0.3
+            if i in [15]:
+                threshold = 0.25
             matched = disgust_pic(source_img, target_img, threshold)
             print(f"{target_img} found {len(matched)}")
             while len(matched) >= 2:
@@ -65,4 +70,13 @@ while True:
     for i in found:
         print(f"swiping: {i}")
         adb_swipe_hold(i[0],i[1],i[2],i[3], 1.5, 800)
+        swipe_cnt = swipe_cnt + 1
+    
+    if swipe_cnt == 0:
+        total_cnt = total_cnt - 1
+        if total_cnt == 0:
+            print(f"no poopers found, swiping back")
+            exit(0)
+    else:
+        total_cnt = 5
 
