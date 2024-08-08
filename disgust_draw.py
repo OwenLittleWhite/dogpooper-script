@@ -75,5 +75,5 @@ def main(main_image_path, template_image_path, threshold=0.7):
 
 if __name__ == "__main__":
     main_image_path = 'cropped_screenshots/cropped_screenshot.png'
-    template_image_path = 'pooper_items/15.png'
-    main(main_image_path, template_image_path, threshold=0.25)
+    template_image_path = 'pooper_items/12.png'
+    main(main_image_path, template_image_path, threshold=0.4)

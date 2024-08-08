@@ -73,3 +73,22 @@ def disgust_pic(main_image_path, template_image_path, threshold=0.4):
 #     template_image_path = 'pooper_items/1.png'
 #     matched_centers = main(main_image_path, template_image_path, threshold=0.7)
 #     print(matched_centers)
+
+def is_at_feed_page():
+    # 读取目标图像和模板图像
+    target_image = cv2.imread('./screenshots/screenshot.png')
+    template_image = cv2.imread('./pooper_items/match.png')
+
+    # 转为灰度图
+    target_gray = cv2.cvtColor(target_image, cv2.COLOR_BGR2GRAY)
+    template_gray = cv2.cvtColor(template_image, cv2.COLOR_BGR2GRAY)
+
+    # 使用模板匹配
+    result = cv2.matchTemplate(target_gray, template_gray, cv2.TM_CCOEFF_NORMED)
+
+    # 设置阈值
+    threshold = 0.8
+
+    # 寻找匹配位置
+    locations = np.where(result >= threshold)
+    return bool(locations[0].size)
