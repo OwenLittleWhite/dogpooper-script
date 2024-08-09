@@ -34,12 +34,14 @@ def main():
     start_time = time.time()
     total_cnt = 5
     finnal_cnt = 3
+    find_results = []
     while True:
         process_screenshots()
         found = []
         swipe_cnt = 0
+        find_cnt_str = ""
         try: 
-            for i in range(20, 13, -1):
+            for i in range(23, 13, -1):
                 target_img = 'pooper_items/' + str(i) + '.png'
                 threshold = 0.4
                 # TODO: 优化
@@ -49,6 +51,7 @@ def main():
                     threshold = 0.25
                 matched = disgust_pic(source_img, target_img, threshold)
                 print(f"{target_img} found {len(matched)}")
+                find_cnt_str += f"{i}-{len(matched)}"
                 while len(matched) >= 2:
                     matched = shuffle_array(matched)
                     if matched[1][1] > matched[0][1]:
@@ -60,6 +63,9 @@ def main():
                     matched = matched[2:]
         except Exception as e:
             print(f"图像识别发生错误: {e}")
+        find_results.append(find_cnt_str)
+        if len(find_results) > 3:
+            find_results.pop(0)
         # merge poopers
         for i in found:
             print(f"swiping: {i}")
@@ -88,7 +94,7 @@ def main():
                     toaster = ToastNotifier()
                     toaster.show_toast("full energy", f"已于{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 充能量", duration=5)
                     time.sleep(3)
-                    total_cnt = 3
+                    total_cnt = 2
                 else:
                     end_time = time.time()
                     duration = (end_time - start_time)/60
@@ -97,6 +103,11 @@ def main():
                     toaster.show_toast("dogPooper运行结束", f"已于{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}结束运行时长为：{duration} 分钟", duration=5)
                     exit(0)
         else:
+             # 如果列表中有三个相同的元素，则说明最近三次的结果相同，程序可能卡住了，需要进一步处理，重启页面
+            if len(set(finnal_cnt)) == 1 and len(finnal_cnt) == 3:
+                print("Error: The last three results were identical. Stopping the loop.")
+                # TODO
+                exit(0)
             total_cnt = 5
             finnal_cnt = 3
 

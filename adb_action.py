@@ -37,11 +37,19 @@ def adb_click(x, y):
     time.sleep(2)
     
 feeds_locations =  [(546, 645), (793, 2073), (309, 2080), (132, 533)]
+feeds_locations_without_speed =  [(546, 645), (793, 2073), (132, 533)]
+full_cnt = 0
 def full_energy():
+    global full_cnt
+    _locations = []
+    if full_cnt % 2 == 0:
+        _locations = feeds_locations
+    else:
+        _locations = feeds_locations_without_speed
     # 依次点击四个坐标来完成能量充值
-    for location in feeds_locations:
+    for location in _locations:
         adb_click(*location)
-    
+    full_cnt += 1
 def exit_feed_page():
     # 点击feeds_locations的最后一个坐标
     adb_click(*feeds_locations[-1])
