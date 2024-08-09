@@ -3,7 +3,7 @@ from win10toast import ToastNotifier
 import random
 import time
 from datetime import datetime
-from adb_action import adb_swipe_hold, full_energy, exit_feed_page
+from adb_action import adb_swipe_hold, full_energy, exit_feed_page, reload_page
 from screenshot import process_screenshots
 start_pos = (86, 1234)
 random.seed()  # 使用系统当前时间作为随机种子
@@ -105,9 +105,8 @@ def main():
         else:
              # 如果列表中有三个相同的元素，则说明最近三次的结果相同，程序可能卡住了，需要进一步处理，重启页面
             if len(set(finnal_cnt)) == 1 and len(finnal_cnt) == 3:
-                print("Error: The last three results were identical. Stopping the loop.")
-                # TODO
-                exit(0)
+                print("可能卡住了，重启页面")
+                reload_page()
             total_cnt = 5
             finnal_cnt = 3
 
