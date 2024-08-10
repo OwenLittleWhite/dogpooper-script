@@ -1,5 +1,5 @@
 from disgust import disgust_pic,is_at_feed_page
-from win10toast import ToastNotifier
+# from win10toast import ToastNotifier
 import random
 import time
 from datetime import datetime
@@ -35,6 +35,7 @@ def main():
     total_cnt = 5
     finnal_cnt = 3
     find_results = []
+    has_reload = False
     while True:
         process_screenshots()
         found = []
@@ -82,7 +83,7 @@ def main():
                 exit_feed_page()
                 continue
             total_cnt = total_cnt - 1
-            time.sleep(3)
+            time.sleep(2)
             if total_cnt == 0:
                 end_time = time.time()
                 duration = (end_time - start_time)/60
@@ -91,24 +92,31 @@ def main():
                     finnal_cnt = finnal_cnt - 1
                     full_energy()
                     print("full energy!!!")
-                    toaster = ToastNotifier()
-                    toaster.show_toast("full energy", f"已于{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 充能量", duration=5)
+                    # toaster = ToastNotifier()
+                    # toaster.show_toast("full energy", f"已于{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 充能量", duration=5)
                     time.sleep(3)
                     total_cnt = 2
                 else:
+                    if has_reload == False:
+                        reload_page()
+                        has_reload = True
+                        total_cnt = 5
+                        finnal_cnt = 3
+                        continue
                     end_time = time.time()
                     duration = (end_time - start_time)/60
-                    toaster = ToastNotifier()
+                    # toaster = ToastNotifier()
                     print("dogPooper运行结束", f"已于{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}结束运行时长为：{duration} 分钟")
-                    toaster.show_toast("dogPooper运行结束", f"已于{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}结束运行时长为：{duration} 分钟", duration=5)
+                    # toaster.show_toast("dogPooper运行结束", f"已于{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}结束运行时长为：{duration} 分钟", duration=5)
                     exit(0)
         else:
              # 如果列表中有三个相同的元素，则说明最近三次的结果相同，程序可能卡住了，需要进一步处理，重启页面
-            if len(set(finnal_cnt)) == 1 and len(finnal_cnt) == 3:
+            if len(set(find_results)) == 1 and len(find_results) == 3:
                 print("可能卡住了，重启页面")
                 reload_page()
             total_cnt = 5
             finnal_cnt = 3
+            has_reload = False
 
 if __name__ == "__main__":
     main()
