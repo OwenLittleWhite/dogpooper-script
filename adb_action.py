@@ -57,10 +57,14 @@ def exit_feed_page():
 
 # full_energy()
 
-reload_locations = [(1014, 178), (784, 319)]
+reload_locations = [(1014, 178), (784, 319), (130, 754)]
 def reload_page():
     adb_click(*reload_locations[0])
     time.sleep(2)
     adb_click(*reload_locations[1])
-    time.sleep(15)
+    time.sleep(30)
+    adb_click(*reload_locations[2])
     
+    
+
+# reload_page()

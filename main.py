@@ -42,7 +42,7 @@ def main():
         swipe_cnt = 0
         find_cnt_str = ""
         try: 
-            for i in range(23, 13, -1):
+            for i in range(24, 13, -1):
                 target_img = 'pooper_items/' + str(i) + '.png'
                 threshold = 0.4
                 # TODO: 优化
@@ -70,7 +70,7 @@ def main():
         # merge poopers
         for i in found:
             print(f"swiping: {i}")
-            random_number = round(random.uniform(2, 4.5), 1)
+            random_number = round(random.uniform(0.5, 1.5), 1)
             adb_swipe_hold(i[0],i[1],i[2],i[3], random_number, 800)
             swipe_cnt = swipe_cnt + 1
             
