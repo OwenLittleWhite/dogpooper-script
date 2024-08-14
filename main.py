@@ -33,9 +33,9 @@ def swap_elements(arr, index1, index2):
 def main():
     start_time = time.time()
     total_cnt = 5
-    finnal_cnt = 3
+    finnal_cnt = 5
     find_results = []
-    has_reload = False
+    has_reload_cnt = 5
     while True:
         process_screenshots()
         found = []
@@ -71,7 +71,7 @@ def main():
         for i in found:
             print(f"swiping: {i}")
             random_number = round(random.uniform(0.5, 1.5), 1)
-            adb_swipe_hold(i[0],i[1],i[2],i[3], random_number, 800)
+            adb_swipe_hold(i[0],i[1],i[2],i[3], random_number, 500)
             swipe_cnt = swipe_cnt + 1
             
         print("swipe cnt: ", swipe_cnt)
@@ -95,13 +95,13 @@ def main():
                     # toaster = ToastNotifier()
                     # toaster.show_toast("full energy", f"已于{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 充能量", duration=5)
                     time.sleep(3)
-                    total_cnt = 2
+                    total_cnt = 5
                 else:
-                    if has_reload == False:
+                    if has_reload_cnt > 0:
                         reload_page()
-                        has_reload = True
+                        has_reload_cnt = has_reload_cnt - 1
                         total_cnt = 5
-                        finnal_cnt = 3
+                        finnal_cnt = 5
                         continue
                     end_time = time.time()
                     duration = (end_time - start_time)/60
@@ -115,8 +115,8 @@ def main():
                 print("可能卡住了，重启页面")
                 reload_page()
             total_cnt = 5
-            finnal_cnt = 3
-            has_reload = False
+            finnal_cnt = 5
+            has_reload_cnt = 5
 
 if __name__ == "__main__":
     main()

@@ -1,5 +1,6 @@
 import subprocess
 import time
+from datetime import datetime
 
 def adb_swipe_hold(start_x, start_y, end_x, end_y, hold_time=0.5, duration=1000):
     """
@@ -59,10 +60,13 @@ def exit_feed_page():
 
 reload_locations = [(1014, 178), (784, 319), (130, 754)]
 def reload_page():
+    print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}reload_page...")
     adb_click(*reload_locations[0])
     time.sleep(2)
     adb_click(*reload_locations[1])
-    time.sleep(30)
+    time.sleep(40)
+    adb_click(*reload_locations[2])
+    time.sleep(10)
     adb_click(*reload_locations[2])
     
     
